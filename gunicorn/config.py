@@ -513,6 +513,23 @@ class MaxRequests(Setting):
         restarts are disabled.
         """
 
+class MaxRequestsJitter(Setting):
+    name = "max_requests_jitter"
+    section = "Worker Processes"
+    cli = ["--max-requests-jitter"]
+    meta = "INT"
+    validator = validate_pos_int
+    type = int
+    default = 0
+    desc = """\
+        The maximum jitter to add to the max-requests setting.
+
+        The jitter causes the restart per working to be randomized by
+        random(range(0, this_value)). This is intended to prevent all of the
+        workers from restarting close to eachother.
+        """
+
+
 
 class Timeout(Setting):
     name = "timeout"

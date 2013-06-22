@@ -8,6 +8,7 @@ import os
 import signal
 import sys
 import traceback
+import random
 
 
 from gunicorn import util
@@ -41,8 +42,10 @@ class Worker(object):
         self.cfg = cfg
         self.booted = False
 
+
         self.nr = 0
-        self.max_requests = cfg.max_requests or MAXSIZE
+        jitter = random.randint(0, cfg.max_requests_jitter)
+        self.max_requests = cfg.max_requests + jitter or MAXSIZE
         self.alive = True
         self.log = log
         self.debug = cfg.debug
